@@ -1,0 +1,27 @@
+server:
+  port: 8082
+  
+spring:
+  data:
+    mongodb:
+      database: Microservice
+      port: 27017
+      host: localhost
+  jpa:
+    database-platform: 
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  application:
+    name: HOTEL-SERVICE
+  config:
+    import: configserver:http://localhost:8085
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka    
