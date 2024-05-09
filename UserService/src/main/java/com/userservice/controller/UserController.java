@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class UserController {
 		this.userService = userService;
 	}
 	
+//	@PreAuthorize(" hasAuthority('Admin')")
 	@PostMapping
 	public ResponseEntity<User> createUser(@RequestBody User user){
 		User user2 = this.userService.createUser(user);
@@ -45,9 +47,9 @@ public class UserController {
 	
 	int retryCount=1;
 	@GetMapping("/{id}")
-//	@CircuitBreaker(name = "ratingHotelBreaker",fallbackMethod = "ratingHotelBreaker")
+	@CircuitBreaker(name = "ratingHotelBreaker",fallbackMethod = "ratingHotelBreaker")
 //	@Retry(name = "ratingHotelService",fallbackMethod = "ratingHotelBreaker")
-	@RateLimiter(name = "ratingHotelRatingLimiter", fallbackMethod = "ratingHotelBreaker")
+//	@RateLimiter(name = "ratingHotelRatingLimiter", fallbackMethod = "ratingHotelBreaker")
 	public User getUser(@PathVariable String id) {
 		LOG.info("Retry Count {}",retryCount);
 		retryCount++;
@@ -58,6 +60,7 @@ public class UserController {
 	//Creating fall back method
 	public User  ratingHotelBreaker(String userId,Exception ex) {
 		LOG.info("Fallback is excuted because some service down:{}",ex.getMessage());
+		ex.printStackTrace();
 		return User.builder()
 				.name("dummy")
 				.mobileNumber("56356464")

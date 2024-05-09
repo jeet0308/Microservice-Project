@@ -1,3 +1,6 @@
+server:
+  port: 8084
+
 spring:
   application:
     name: GATEWAY-SERVICE
@@ -23,20 +26,18 @@ spring:
           predicates:
             - Path=/api/rating/**
             
-server:
-  port: 8084
+
   
   
 
 #Okta Configuration
-okta: 
+okta:
   oauth2:
-    issuer: "https://dev-69944771.okta.com"
+    issuer: https://dev-69944771.okta.com/oauth2/default
     audience: api://default
     client-id: 0oagp5dci2UCra9xd5d7
     client-secret: n9eb7cayb9XyTAL0bb8Qpbyu0gELMIPumUJ64Aegnj4y9VUgRj1vCkvo3TXJfW4b
     scopes: openid, profile, email, offline_access
-    
 
             
 #eureka:
